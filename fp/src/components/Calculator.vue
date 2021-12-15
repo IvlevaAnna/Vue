@@ -9,7 +9,7 @@
       <button @click="sum">+</button>
       <button @click="sub">-</button>
       <button @click="divide">/</button>
-      <button @click="mult">*</button>
+      <button @click="multiply">*</button>
       <button @click="pow">^</button>
       <button @click="intDivide">//</button>
     </div>
@@ -37,7 +37,7 @@ export default {
     divide () {
       this.result = this.operand1 / this.operand2
     },
-    mult () {
+    multiply () {
       this.result = this.operand1 * this.operand2
     },
     pow () {
