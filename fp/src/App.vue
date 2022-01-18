@@ -13,6 +13,7 @@
 <script>
 import Costs from "./components/Costs";
 import CostAdding from "./components/CostAdding";
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: "App",
@@ -22,7 +23,16 @@ export default {
   },
   data() {
     return {
-      costs: [
+      costs: []
+    }
+  },
+  computed: {
+    ...mapGetters(['getCosts', 'getTotalCost']),
+  },
+  methods: {
+    ...mapMutations(['setCosts']),
+    fetchData() {
+      return [
         {
           date: '11.01.2021',
           category: 'Food',
@@ -44,12 +54,13 @@ export default {
           value: 500
         },
       ]
-    }
-  },
-  methods: {
+    },
     addToCosts(data) {
       this.costs.push(data)
-    }
+    },
+  },
+  created() {
+    this.setCosts(this.fetchData())
   }
 };
 </script>
