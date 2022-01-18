@@ -1,7 +1,11 @@
 <template>
 <div class="wrapper">
   <input class="item" type="date" placeholder="date" v-model="date" />
-  <input class="item" placeholder="category" v-model="category" />
+  <select class="item" v-model="category">
+    <option v-for="category, idx in categories" :key="idx">
+      {{category}}
+    </option>
+  </select>
   <input class="item" placeholder="value" v-model.number="value" />
   <button class="btn" @click="onClick">Add Cost</button>
 </div>
@@ -10,6 +14,7 @@
 <script>
 export default {
   name: "CostAdding",
+  props: ['categories'],
   data() {
     return{
       date: '',
