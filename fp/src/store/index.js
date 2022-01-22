@@ -7,7 +7,7 @@ export default new Vuex.Store({
     state: {
         costs: [],
         pagination: null,
-        categories: ['Shopping','Entertainment', 'Food', 'Travelling']
+        categories: ['Shopping','Entertainment', 'Food', 'Travelling', 'Transport']
     },
     mutations: {
         setCosts( state, payload) {
