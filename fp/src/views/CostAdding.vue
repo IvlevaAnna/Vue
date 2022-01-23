@@ -12,9 +12,10 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "CostAdding",
-  props: ['categories'],
   data() {
     return{
       date: '',
@@ -23,29 +24,47 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      pagination: 'getPagination',
+      categories: 'getCategories',
+    }),
     getCurrentDate() {
-      const today = new Date()
-      const d = today.getDate()
-      const m = today.getMonth()
-      const y = today.getFullYear()
-      return `${d}.${m}.${y}`
+      const today = new Date().toLocaleDateString('en-CA')
+      return today
     }
   },
   methods: {
+    addToCosts(data) {
+      this.pagination[this.pagination.length - 1].push(data)
+    },
     onClick() {
       const data = {
         date: this.date || this.getCurrentDate,
         category: this.category,
         value: this.value,
       }
-      this.$emit('addNewCost', data)
+      console.log(data)
+      this.addToCosts(data)
     }
-  }
+  },
+  mounted() {
+    if( this.$route.params?.category ) {
+      this.category = this.$route.params?.category
+      this.date = this.getCurrentDate
+
+      if(this.$route.query?.value ) {
+        this.value = this.$route.query?.value
+        this.addToCosts([this.date, this.category, this.value])
+      }
+    }
+
+  },
 }
 </script>
 
 <style scoped>
 .wrapper {
+  width: 200px;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
