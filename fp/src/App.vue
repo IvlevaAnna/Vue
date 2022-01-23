@@ -4,8 +4,9 @@
       <div>
         <div class="title">My personal costs</div>
         <Costs :costs="costs"/>
+        <Pagination :pagination="pagination" />
       </div>
-      <CostAdding @addNewCost="addToCosts" />
+      <CostAdding @addNewCost="addToCosts" :categories="categories" />
     </div>
   </div>
 </template>
@@ -13,16 +14,32 @@
 <script>
 import Costs from "./components/Costs";
 import CostAdding from "./components/CostAdding";
+import { mapMutations, mapGetters, mapActions } from 'vuex'
+import Pagination from "./components/Pagination";
 
 export default {
   name: "App",
   components: {
+    Pagination,
     Costs,
     CostAdding,
   },
   data() {
     return {
-      costs: [
+    }
+  },
+  computed: {
+    ...mapGetters({
+      costs: 'getCosts',
+      pagination: 'getPagination',
+      categories: 'getCategories',
+    }),
+  },
+  methods: {
+    ...mapMutations(['setCosts']),
+    ...mapActions(['fetchPaginationData']),
+    fetchData() {
+      return [
         {
           date: '11.01.2021',
           category: 'Food',
@@ -43,13 +60,25 @@ export default {
           category: 'Entertainment',
           value: 500
         },
+        {
+          date: '03.11.2021',
+          category: 'Entertainment',
+          value: 500
+        },
+        {
+          date: '03.11.2021',
+          category: 'Entertainment',
+          value: 500
+        },
       ]
-    }
-  },
-  methods: {
+    },
     addToCosts(data) {
-      this.costs.push(data)
-    }
+      this.pagination[this.pagination.length - 1].push(data)
+    },
+  },
+  created() {
+    this.setCosts(this.fetchData())
+    this.fetchPaginationData()
   }
 };
 </script>
