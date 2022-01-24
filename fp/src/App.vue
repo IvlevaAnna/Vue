@@ -16,6 +16,9 @@ export default {
     return {
     }
   },
+  created() {
+    this.$modal.show()
+  }
 };
 </script>
 

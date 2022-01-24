@@ -1,6 +1,6 @@
 <template>
   <div class="pagination">
-    <button @click="setPage(page)"  v-for="page, idx in pagination" :key="idx">
+    <button @click="setPage(page, idx)"  v-for="page, idx in pagination" :key="idx">
       {{idx + 1}}
     </button>
   </div>
@@ -13,9 +13,10 @@ export default {
   name: "Pagination",
   props: ['pagination'],
   methods: {
-    ...mapMutations(['setCosts']),
-    setPage(page) {
-      this.setCosts(page)
+    ...mapMutations(['setPageCosts', "setPageNum"]),
+    setPage(page, idx) {
+      this.setPageCosts(page)
+      this.setPageNum(idx)
     }
   }
 }

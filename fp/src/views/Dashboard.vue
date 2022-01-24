@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="title">My personal costs</div>
-  <Costs :costs="costs"/>
+  <Costs :pageCosts="pageCosts"/>
   <Pagination :pagination="pagination" />
 </div>
 </template>
@@ -23,13 +23,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      costs: 'getCosts',
+      allCosts: 'getAllCosts',
+      pageCosts: 'getPageCosts',
       pagination: 'getPagination',
       categories: 'getCategories',
     }),
   },
   methods: {
-    ...mapMutations(['setCosts']),
+    ...mapMutations(['setAllCosts']),
     ...mapActions(['fetchPaginationData']),
     fetchData() {
       return [
@@ -67,7 +68,7 @@ export default {
     },
   },
   created() {
-    this.setCosts(this.fetchData())
+    this.setAllCosts(this.fetchData())
     this.fetchPaginationData()
   }
 }
