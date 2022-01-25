@@ -21,32 +21,35 @@
                 <image id="image0_76702_2" width="32" height="32" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABJwAAAScBjbzwzAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEZSURBVFiF7ZcxbgIxEEXfj6CAjgtsFVFE2ntwgBQcghNxEl+CKhISUtqcgCIFkZzGK9DiAn/MbrNfmmI92vHTeDy2iTFSasAK2AM/yfbAyoplTD4HDkDs2QGYDwGwzUze2bY03hvl+jB9WTkA36YvL2MJlsCJ+/SfgOXLayBBNEAA/pIFoHFiKQW0JGmRsvhrx3gGoIacIpwAqmrm/iipBTbpM8QYv6xA5jbcAReuPeAC7IY6jNre5LcQ7RBnwYb80s24LsnDGr0IHYCuBffVteQyjV2EdiuutQ2ns2ACeApA0qK7lAwKIKmRFIAzcJYUJDUWgdEDql5KnQx8AuvM+Dr5iuQAvJu+agBH05eXUQPjPk4TRLXn+T/LVJD0qHaMkgAAAABJRU5ErkJggg=="/>
               </defs>
             </svg>
-            <div class="select" v-show="showContextMenu === idx">
-              <button @click="onDelete(idx, allCosts)">Delete</button>
-              <button @click="() => {editForm=true; editCost = cost}">Edit</button>
-            </div>
+            <transition name="fade">
+              <div class="select" v-show="showContextMenu === idx">
+                <button @click="onDelete(idx, allCosts)">Delete</button>
+                <button @click="() => editCost(idx, cost)">Edit</button>
+              </div>
+            </transition>
           </button>
         </td>
       </tr>
     </table>
     <div class="modal" v-show="editForm">
-      <CostAdding :cost="editCost"/>
+      <ModalEditCost :cost="cost" :idx="id"/>
     </div>
   </div>
 </template>
 
 <script>
 import {mapMutations, mapActions, mapGetters} from 'vuex'
-import CostAdding from "../views/CostAdding";
+import ModalEditCost from "./ModalEditCost";
 export default {
   name: "Costs",
-  components: {CostAdding},
+  components: {ModalEditCost},
   props: ["pageCosts"],
   data() {
     return {
       showContextMenu: null,
       editForm: false,
-      editCost: {},
+      cost: {},
+      id: null,
     }
   },
   computed: {
@@ -58,6 +61,11 @@ export default {
     onDelete(id, allCosts) {
       this.setAllCosts(this.$modal.delete((id + this.pageNum * 5), allCosts))
       this.fetchPaginationData()
+    },
+    editCost(idx, cost) {
+      this.editForm = true
+      this.id = idx
+      this.cost = cost
     },
   }
 }
@@ -112,6 +120,14 @@ td {
   height: 100%;
   background: #e5b0a4;
   z-index: 15;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 </style>

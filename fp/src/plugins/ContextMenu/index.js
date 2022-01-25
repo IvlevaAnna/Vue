@@ -21,8 +21,13 @@ export default {
                 allCosts.splice(id, 1)
                 return allCosts
             },
-            edit(id) {
-                this.EventBus.$emit('edit', id)
+            edit(data, allCosts) {
+                this.EventBus.$emit('edit', {data, allCosts})
+                allCosts[data.id].date = data.date
+                allCosts[data.id].category = data.category
+                allCosts[data.id].value = data.value
+
+                return allCosts
             }
         }
     }
