@@ -35,32 +35,32 @@ export default {
     fetchData() {
       return [
         {
-          date: '11.01.2021',
+          date: '2021-01-11',
           category: 'Food',
           value: 150
         },
         {
-          date: '11.11.2021',
+          date: '2021-11-11',
           category: 'Cosmetics',
           value: 1000
         },
         {
-          date: '10.11.2021',
+          date: '2021-11-10',
           category: 'Entertainment',
           value: 540
         },
         {
-          date: '03.11.2021',
+          date: '2021-11-03',
           category: 'Entertainment',
           value: 500
         },
         {
-          date: '03.11.2021',
+          date: '2021-12-12',
           category: 'Entertainment',
           value: 500
         },
         {
-          date: '03.11.2021',
+          date: '2021-01-01',
           category: 'Entertainment',
           value: 500
         },

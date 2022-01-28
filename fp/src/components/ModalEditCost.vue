@@ -1,6 +1,7 @@
 <template>
 <div>
   <input class="item" type="date" placeholder="date" v-model="date" />
+  {{date}}
   <select class="item" v-model="category">
     <option v-for="category, idx in categories" :key="idx">
       {{category}}
@@ -17,12 +18,22 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 export default {
   name: "ModalEditCost",
   props: {cost: Object, idx: Number},
-  data() {
-    return{
-      date: this.$props.cost.date || '',
+  data: function() {
+    return {
+      date: '',
       category: '',
-      value: this.$props.cost.value || '',
-      id: this.$props.idx || null,
+      value: '',
+      id: 0,
+    }
+  },
+  watch: {
+    cost: function(value) {
+      this.date = value.date
+      this.category = value.category
+      this.value = value.value
+    },
+    idx: function(value) {
+      this.id = value
     }
   },
   computed: {
@@ -49,18 +60,6 @@ export default {
       this.setAllCosts(this.$modal.edit(data, this.allCosts))
       this.fetchPaginationData()
     }
-  },
-  mounted() {
-    console.log(this.$props)
-    if(this.$props.cost) {
-      this.date = this.$props.cost.date
-      this.category = this.$props.cost.category
-      this.value = this.$props.cost.value
-    }
-    if(this.$props.idx) {
-      this.id = this.$props.cost.id
-    }
-
   },
 }
 </script>

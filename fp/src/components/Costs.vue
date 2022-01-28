@@ -31,7 +31,7 @@
         </td>
       </tr>
     </table>
-    <div class="modal" v-show="editForm">
+    <div class="modal" v-if="editForm">
       <ModalEditCost :cost="cost" :idx="id"/>
     </div>
   </div>
@@ -66,6 +66,7 @@ export default {
       this.editForm = true
       this.id = idx
       this.cost = cost
+      console.log(this.cost, this.id)
     },
   }
 }
