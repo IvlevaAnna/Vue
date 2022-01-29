@@ -5,17 +5,31 @@
       <router-link to="/add/payment">Cost adding</router-link>
     </header>
     <router-view />
+    <div class="modal" v-if="editForm">
+      <ModalEditCost :idx="editId"/>
+    </div>
   </div>
 </template>
 
 <script>
-
+import ModalEditCost from "./components/ModalEditCost";
+import {mapGetters} from "vuex";
 export default {
   name: "App",
+  components: {ModalEditCost},
   data() {
     return {
     }
   },
+  created() {
+    this.$modal.show()
+  },
+  computed: {
+    ...mapGetters({
+      editForm: 'getEditForm',
+      editId: 'getEditId',
+    })
+  }
 };
 </script>
 
@@ -39,5 +53,15 @@ export default {
 .container {
   display: flex;
   gap: 40px;
+}
+
+.modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  padding-top: 100px;
+  background: rgba(200, 214, 229,0.4);
+  z-index: 15;
 }
 </style>

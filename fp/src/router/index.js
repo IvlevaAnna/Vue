@@ -19,7 +19,7 @@ const routes = [
     },
     {
         path: '/add/payment/:category',
-        name: 'add',
+        name: 'addInfo',
         component: CostAdding
     },
 ]

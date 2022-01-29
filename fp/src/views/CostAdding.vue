@@ -16,11 +16,13 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "CostAdding",
+  props: {cost: Object},
   data() {
     return{
       date: '',
       category: '',
       value: '',
+      id: null,
     }
   },
   computed: {
@@ -56,6 +58,12 @@ export default {
         this.value = this.$route.query?.value
         this.addToCosts([this.date, this.category, this.value])
       }
+    }
+
+    if(this.$props?.cost) {
+      this.date = this.$props.cost.date
+      this.category = this.$props.cost.category
+      this.value = this.$props.cost.value
     }
 
   },
