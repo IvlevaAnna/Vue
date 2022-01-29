@@ -9,7 +9,9 @@ export default new Vuex.Store({
         pageCosts: [],
         pagination: null,
         pageNum: 0,
-        categories: ['Shopping','Entertainment', 'Food', 'Travelling', 'Transport']
+        categories: ['Shopping','Entertainment', 'Food', 'Travelling', 'Transport'],
+        editForm: false,
+        editId: null,
     },
     mutations: {
         setAllCosts( state, payload) {
@@ -34,7 +36,13 @@ export default new Vuex.Store({
             else
                 state.pagination[state.pagination.length - 1].push(payload)
             state.pagination = [...state.pagination]
-        }
+        },
+        setEditForm(state) {
+            state.editForm = !state.editForm
+        },
+        setEditId( state, payload) {
+            state.editId = payload
+        },
 
     },
     getters: {
@@ -43,6 +51,8 @@ export default new Vuex.Store({
         getCategories: state => state.categories,
         getPageNum: state => state.pageNum,
         getPagination: state => state.pagination,
+        getEditForm: state => state.editForm,
+        getEditId: state => state.editId,
     },
     actions: {
         fetchPaginationData({commit}) {

@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative">
+  <div>
     <table class="costsTable">
       <tr class="headers">
         <td>Date</td>
@@ -24,31 +24,25 @@
             <transition name="fade">
               <div class="select" v-show="showContextMenu === idx">
                 <button @click="onDelete(idx, allCosts)">Delete</button>
-                <button @click="() => editCost(idx, cost)">Edit</button>
+                <button @click="() => editCost(idx)">Edit</button>
               </div>
             </transition>
           </button>
         </td>
       </tr>
     </table>
-    <div class="modal" v-if="editForm">
-      <ModalEditCost :cost="cost" :idx="id"/>
-    </div>
   </div>
 </template>
 
 <script>
 import {mapMutations, mapActions, mapGetters} from 'vuex'
-import ModalEditCost from "./ModalEditCost";
 export default {
   name: "Costs",
-  components: {ModalEditCost},
   props: ["pageCosts"],
   data() {
     return {
       showContextMenu: null,
       editForm: false,
-      cost: {},
       id: null,
     }
   },
@@ -56,17 +50,15 @@ export default {
   ...mapGetters({pagination: 'getPagination', allCosts: 'getAllCosts', pageNum: 'getPageNum'})
   },
   methods: {
-    ...mapMutations(['setAllCosts']),
+    ...mapMutations(['setAllCosts', 'setEditId', 'setEditForm']),
     ...mapActions(['fetchPaginationData']),
     onDelete(id, allCosts) {
       this.setAllCosts(this.$modal.delete((id + this.pageNum * 5), allCosts))
       this.fetchPaginationData()
     },
-    editCost(idx, cost) {
-      this.editForm = true
-      this.id = idx
-      this.cost = cost
-      console.log(this.cost, this.id)
+    editCost(idx) {
+      this.setEditForm()
+      this.setEditId(idx + (this.pageNum * 5))
     },
   }
 }
@@ -113,14 +105,6 @@ td {
 
 .select >button:last-of-type {
   border-radius: 0 0 3px 3px;
-}
-
-.modal {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #e5b0a4;
-  z-index: 15;
 }
 
 .fade-enter-active, .fade-leave-active {

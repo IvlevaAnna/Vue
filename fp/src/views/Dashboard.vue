@@ -1,5 +1,5 @@
 <template>
-<div>
+<div >
   <div class="title">My personal costs</div>
   <Costs :pageCosts="pageCosts"/>
   <Pagination :pagination="pagination" />
