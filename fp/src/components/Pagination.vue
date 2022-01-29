@@ -1,25 +1,38 @@
 <template>
-  <div class="pagination">
-    <button @click="setPage(page, idx)"  v-for="page, idx in pagination" :key="idx">
-      {{idx + 1}}
-    </button>
-  </div>
+  <v-pagination
+      v-model="selected"
+      :length="pagination.length"
+      prev-icon="mdi-menu-left"
+      next-icon="mdi-menu-right"
+      @input="setPage"
+  ></v-pagination>
 </template>
 
 <script>
-import {mapMutations} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "Pagination",
-  props: ['pagination'],
-  methods: {
-    ...mapMutations(['setPageCosts', "setPageNum"]),
-    setPage(page, idx) {
-      this.setPageCosts(page)
-      this.setPageNum(idx)
+  data() {
+    return{
+      selected: 0,
     }
-  }
-}
+  },
+  computed: {
+    ...mapGetters({
+      page: 'getPageNum',
+      pagination: "getPagination",
+    }),
+  },
+  methods: {
+    ...mapMutations(["setPageCosts", "setPageNum"]),
+    setPage() {
+      console.log(this.selected)
+      this.setPageCosts(this.pagination[this.selected - 1]);
+      this.setPageNum(this.selected - 1);
+    },
+  },
+};
 </script>
 
 <style>
