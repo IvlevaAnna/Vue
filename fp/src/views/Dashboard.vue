@@ -19,7 +19,7 @@
       </v-col>
 
       <v-col>
-        chart
+        <Doughnut :categories="categories" :sum="sum"/>
       </v-col>
     </v-row>
   </v-container>
@@ -30,10 +30,12 @@ import Costs from "../components/Costs";
 import { mapMutations, mapGetters, mapActions } from "vuex";
 import Pagination from "../components/Pagination";
 import CostAdding from "./CostAdding";
+import Doughnut from "./Doughnut";
 
 export default {
   name: "Dashboard",
   components: {
+    Doughnut,
     CostAdding,
     Pagination,
     Costs,
@@ -41,6 +43,7 @@ export default {
   data() {
     return {
       dialog: false,
+      sum: [],
     };
   },
   computed: {
@@ -92,6 +95,18 @@ export default {
     this.setAllCosts(this.fetchData());
     this.fetchPaginationData();
   },
+  mounted( ) {
+    this.categories.map((category) => {
+      let oneCategory = 0
+      for (let i = 0; i < this.allCosts.length; i++) {
+        if(this.allCosts[i].category === category) {
+          oneCategory =+ this.allCosts[i].value
+        }
+      }
+      this.sum.push(oneCategory)
+    })
+    console.log(this.sum)
+  }
 };
 </script>
 
