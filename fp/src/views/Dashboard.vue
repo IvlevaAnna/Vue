@@ -1,78 +1,113 @@
 <template>
-<div>
-  <div class="title">My personal costs</div>
-  <Costs :costs="costs"/>
-  <Pagination :pagination="pagination" />
-</div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <div class="title">My personal costs</div>
+        <v-dialog
+            v-model="dialog"
+            width="500"
+        >
+          <template v-slot:activator="{on}">
+            <v-btn color="teal" dark class="mt-4 mb-2" v-on="on">
+              ADD NEW COST <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <CostAdding />
+        </v-dialog>
+        <Costs :pageCosts="pageCosts" />
+        <Pagination/>
+      </v-col>
+
+      <v-col>
+        <Doughnut :categories="categories" :sum="sum"/>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import Costs from "../components/Costs";
-import { mapMutations, mapGetters, mapActions } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import Pagination from "../components/Pagination";
+import CostAdding from "./CostAdding";
+import Doughnut from "./Doughnut";
 
 export default {
   name: "Dashboard",
   components: {
+    Doughnut,
+    CostAdding,
     Pagination,
     Costs,
   },
   data() {
     return {
-    }
+      dialog: false,
+      sum: [],
+    };
   },
   computed: {
     ...mapGetters({
-      costs: 'getCosts',
-      pagination: 'getPagination',
-      categories: 'getCategories',
+      allCosts: "getAllCosts",
+      pageCosts: "getPageCosts",
+      categories: "getCategories",
     }),
   },
   methods: {
-    ...mapMutations(['setCosts']),
-    ...mapActions(['fetchPaginationData']),
+    ...mapMutations(["setAllCosts"]),
+    ...mapActions(["fetchPaginationData"]),
     fetchData() {
       return [
         {
-          date: '11.01.2021',
-          category: 'Food',
-          value: 150
+          date: "2021-01-11",
+          category: "Food",
+          value: 150,
         },
         {
-          date: '11.11.2021',
-          category: 'Cosmetics',
-          value: 1000
+          date: "2021-11-11",
+          category: "Cosmetics",
+          value: 1000,
         },
         {
-          date: '10.11.2021',
-          category: 'Entertainment',
-          value: 540
+          date: "2021-11-10",
+          category: "Entertainment",
+          value: 540,
         },
         {
-          date: '03.11.2021',
-          category: 'Entertainment',
-          value: 500
+          date: "2021-11-03",
+          category: "Entertainment",
+          value: 500,
         },
         {
-          date: '03.11.2021',
-          category: 'Entertainment',
-          value: 500
+          date: "2021-12-12",
+          category: "Entertainment",
+          value: 500,
         },
         {
-          date: '03.11.2021',
-          category: 'Entertainment',
-          value: 500
+          date: "2021-01-01",
+          category: "Entertainment",
+          value: 500,
         },
-      ]
+      ];
     },
   },
   created() {
-    this.setCosts(this.fetchData())
-    this.fetchPaginationData()
+    this.setAllCosts(this.fetchData());
+    this.fetchPaginationData();
+  },
+  mounted( ) {
+    this.categories.map((category) => {
+      let oneCategory = 0
+      for (let i = 0; i < this.allCosts.length; i++) {
+        if(this.allCosts[i].category === category) {
+          oneCategory =+ this.allCosts[i].value
+        }
+      }
+      this.sum.push(oneCategory)
+    })
+    console.log(this.sum)
   }
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
