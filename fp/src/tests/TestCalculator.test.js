@@ -54,8 +54,8 @@ describe('Calculator', () => {
         const wrapper = mount(Calculator)
 
         const operand1 = wrapper.find('input[name=operand1]')
-        operand1.setValue('10')
-        expect(wrapper.vm.operand1).toBe(10)
+        operand1.setValue('0')
+        expect(wrapper.vm.operand1).toBe(0)
 
         const operand2 = wrapper.find('input[name=operand2]')
         operand2.setValue('4')
@@ -64,9 +64,7 @@ describe('Calculator', () => {
         const divideBtn = wrapper.find('button[name="/"]')
         divideBtn.trigger('click')
 
-        console.log(wrapper.vm.result, wrapper.vm.operand1, wrapper.vm.operand2)
-
-        expect(wrapper.vm.result).toBeCloseTo(2.5)
+        expect(wrapper.vm.result).toBeCloseTo(0)
     })
 
     test('multiply operation', () => {
