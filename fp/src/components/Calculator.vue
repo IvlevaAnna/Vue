@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="display">
-      <input v-model.number="operand1" type="number"/>
-      <span class="operation">{{chosenOperation}}</span>
-      <input v-model.number="operand2" type="number"/>
+      <input v-model.number="operand1" type="number" name="operand1"/>
+      <span class="operation" >{{chosenOperation}}</span>
+      <input v-model.number="operand2" type="number" name="operand2"/>
       = {{result}}
     </div>
     <button v-for="(operation, idx) in operations"
@@ -11,6 +11,7 @@
             @click="calculate(operation)"
             :disabled="operation === '/' && ( operand2 === 0 || operand2 === '')"
             class="btn"
+            :name="operation"
     >
       {{operation}}
     </button>
@@ -42,7 +43,6 @@
 </template>
 
 <script>
-import './style.css'
 export default {
   name: "Calculator",
   data () {
